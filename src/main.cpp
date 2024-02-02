@@ -49,9 +49,9 @@ int main() {
     char board[LINE][COLUMN];
     string nameA, nameB;
     int line, column;
-    
-    welcomeGame();
+
     createBoard(board);
+    welcomeGame();
     createPlayers(&nameA, &nameB);
 
     Player playerA(nameA, 'X');
@@ -59,8 +59,8 @@ int main() {
 
     informationPlayers(playerA, playerB);
     int firstPlayer = sortedPlayer();
+    
     int turn = firstPlayer;
-
     while (true) {
         drawBoard(board);
         turnPlayer((!turn ? playerA : playerB), board);
@@ -72,23 +72,23 @@ int main() {
             break;
         } else if(checkTie(board)) {
             drawBoard(board);
-            cout << "Empate!" << endl;
-            cout << "Game over\n";
+            cout << "Tied match!" << endl;
+            cout << "Game over!\n";
             break;
         } else {
-            cout << "Game continues...\n";
+            cout << "\nGame continues...\n";
             turn = !turn;
             continue;
         }
     }
 
+    delete[] board;
     return 0;
 }
 
 void welcomeGame() {
     cout << "Welcome to the game noughts and crosses\n";
     cout << "Inicializing the board...\n\n";
-    cout << "===BOARD===\n";
 }
 
 void createBoard(char board[LINE][COLUMN]) {
@@ -97,20 +97,13 @@ void createBoard(char board[LINE][COLUMN]) {
     for (int i = FIRST_INDEX; i < LINE; i++) {
         for (int j = FIRST_INDEX; j < COLUMN; j++) {
             board[i][j] = number + '0';
-            cout << " " << board[i][j];
-            if (j < LAST_INDEX) cout << " |";
             number++;
         }
-
-        cout << endl;
-        if (i < LAST_INDEX) cout << "-----------" << endl;
     }
-
-    delete &number;
 }
 
 void createPlayers(string *nameA, string *nameB) {
-    cout << "\nInicializing the players...\n";
+    cout << "Inicializing the players...\n";
     cout << "Player 1, type your name: ";
     cin >> *nameA;
 
@@ -120,7 +113,7 @@ void createPlayers(string *nameA, string *nameB) {
 
 void drawBoard(char board[LINE][COLUMN]) {
     cout << "-----------" << endl;
-    
+
     for (int i = FIRST_INDEX; i < LINE; i++) {
         for (int j = FIRST_INDEX; j < COLUMN; j++) {
             cout << " " << board[i][j];
@@ -135,14 +128,14 @@ void drawBoard(char board[LINE][COLUMN]) {
 }
 
 void informationPlayers(Player playerA, Player playerB) {
-    cout << "\nPlayer 1: " << playerA.getName() << " - Symbol: " << playerA.getSymbol() << endl;
-    cout << "Player 2: " << playerB.getName() << " - Symbol: " << playerB.getSymbol() << endl;  
+    cout << "Player 1: " << playerA.getName() << " - Symbol: " << playerA.getSymbol() << endl;
+    cout << "Player 2: " << playerB.getName() << " - Symbol: " << playerB.getSymbol() << endl;
 }
 
 void turnPlayer(Player player, char board[LINE][COLUMN]) {
     int line, column;
 
-    cout << "It's your turn " << player.getName() << endl;
+    cout << "\nIt's your turn " << player.getName() << endl;
     cout << "Type the line and column: ";
     cin >> line >> column;
 
@@ -155,7 +148,7 @@ void turnPlayer(Player player, char board[LINE][COLUMN]) {
 }
 
 int sortedPlayer() {
-    cout << "Sorting the first player...\n";
+    cout << "\nSorting the first player...\n\n";
 
     srand(static_cast<unsigned int>(time(nullptr)));
     int randomValue = rand();
@@ -173,7 +166,7 @@ bool checkWin(char board[LINE][COLUMN]) {
 
     if(board[0][0] == board[1][1] && board[1][1] == board[2][2]) return true;
     if(board[0][2] == board[1][1] && board[1][1] == board[2][0]) return true;
-    
+
     return false;
 }
 
